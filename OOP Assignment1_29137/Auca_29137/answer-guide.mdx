@@ -1,0 +1,82 @@
+# AUCA_ID Assignment Answer Guide
+
+This guide maps the questions in [`assign.mdx`](./assign.mdx) to the source files that address them. It is an orientation guide, not a replacement for the runnable Java project.
+
+**Coverage key**
+
+- **Implemented:** the main requested feature is present in the source.
+- **Partial:** the basic feature exists, but one or more details in the assignment are not implemented yet.
+
+## Assignment questions and answers
+
+| Assignment section | Where to look | Coverage and explanation |
+| --- | --- | --- |
+| **1. Problem statement** | [`Main.java`](./src/com/auca/main/Main.java) and the domain classes listed below | **Partial.** The console application stores school records in typed in-memory lists and includes the required domain model. The program demonstrates several OOP concepts, but the smart-form requirements in Sections 12 and 16–18 are not all implemented. |
+| **2. Packages and prescribed types** | [`Identifiable.java`](./src/com/auca/interfaces/Identifiable.java), [`Registrable.java`](./src/com/auca/interfaces/Registrable.java), [`Person.java`](./src/com/auca/abstracts/Person.java), [`AcademicMember.java`](./src/com/auca/abstracts/AcademicMember.java), and the concrete class links in the [domain types](#3-mandatory-domain-attributes) table | **Implemented.** Types are organized under `com.auca` by the required package structure. |
+| **3. Mandatory attributes and data types** | The [domain types](#3-mandatory-domain-attributes) table below | **Implemented in the model.** Each domain type declares its prescribed fields; relationships use object references, and date and money fields use `LocalDate` and `BigDecimal` where specified. |
+| **4. Interface contracts** | [`Identifiable.java`](./src/com/auca/interfaces/Identifiable.java), [`Registrable.java`](./src/com/auca/interfaces/Registrable.java), [`Person.java`](./src/com/auca/abstracts/Person.java), [`AcademicMember.java`](./src/com/auca/abstracts/AcademicMember.java) | **Partial.** Both interfaces declare their core methods. `Person` and `AcademicMember` declare role/category methods as abstract-class extensions. `Registrable` also contains a default `getEntityName()` helper; the assignment does not require it. |
+| **5. Inheritance and polymorphism** | [`Person.java`](./src/com/auca/abstracts/Person.java), [`AcademicMember.java`](./src/com/auca/abstracts/AcademicMember.java), [`Student.java`](./src/com/auca/student/Student.java), [`Teacher.java`](./src/com/auca/teacher/Teacher.java), [`Administrator.java`](./src/com/auca/administrator/Administrator.java), and [`Main.java`](./src/com/auca/main/Main.java) (`demonstratePolymorphism`) | **Implemented.** Student and Teacher extend AcademicMember, which extends Person; Administrator extends Person. The demo uses `List<Person>` and `List<Identifiable>`. Abstract classes cannot be instantiated because they declare abstract methods and represent shared, incomplete base behavior. |
+| **6. Registration workflow and relationships** | [`Main.java`](./src/com/auca/main/Main.java) (`registerStudent`, `registerTeacher`, `registerCourse`, `enrollStudent`, `recordAssessment`, `recordFeePayment`, `borrowLibraryBook`, `returnLibraryBook`) | **Partial.** Registration selects existing related objects and checks several prerequisites and duplicate rules. Some missing prerequisites report an error rather than offering nested registration and resuming the interrupted workflow. |
+| **7. Main class and menu** | [`Main.java`](./src/com/auca/main/Main.java) (`main`, `printMenu`, and menu operation methods) | **Partial.** The menu loops, handles nonnumeric/out-of-range choices, and routes the 19 listed actions. Search, update, reporting, and polymorphism operations exist. Some workflows are simpler than the assignment's guided-form requirements. |
+| **8. Validation** | Domain classes' `validate()` methods; [`Main.java`](./src/com/auca/main/Main.java) (`readInt`, `readDate`, `readBigDecimal`, and registration methods) | **Partial.** Core validation covers common required fields, numeric bounds, dates, scores, money, and book stock. Some rules are not uniformly enforced at every input and save boundary; for example, not every identifier/code is checked for uniqueness across all types, and some enum-like values accept free text. |
+| **9. Custom exceptions** | [`ValidationException.java`](./src/com/auca/exceptions/ValidationException.java), [`DuplicateRecordException.java`](./src/com/auca/exceptions/DuplicateRecordException.java), [`RecordNotFoundException.java`](./src/com/auca/exceptions/RecordNotFoundException.java), [`PrerequisiteMissingException.java`](./src/com/auca/exceptions/PrerequisiteMissingException.java), [`BookUnavailableException.java`](./src/com/auca/exceptions/BookUnavailableException.java), [`Main.java`](./src/com/auca/main/Main.java) | **Implemented.** The five exception types are defined and handled around menu actions so a failed operation returns to the menu. |
+| **10. Constructors and encapsulation** | All domain classes in the [domain types](#3-mandatory-domain-attributes) table | **Implemented in the model.** Fields are private, constructors initialize the object state, and Student/Teacher/Administrator call superclass constructors. Classes provide accessors and readable `toString()` implementations. |
+| **11. Physical demonstration and submission** | [`Main.java`](./src/com/auca/main/Main.java) and the [suggested demonstration](#suggested-demonstration) | **Partial.** The application can be run and demonstrates several required scenarios. The smart-form steps and some exact examiner scenarios still need implementation before every listed demonstration requirement is met. |
+| **12. Smart registration menu and forms** | [`Main.java`](./src/com/auca/main/Main.java) | **Partial.** One shared `Scanner` and line-based input are used. The basic registration and selection flows work, but forms do not consistently provide Back/Cancel, field-by-field retry while preserving prior answers, full review/edit confirmation, or nested prerequisite registration with automatic resume. |
+| **16. Smart Student Registration** | [`Main.java`](./src/com/auca/main/Main.java) (`registerStudent`); [`Student.java`](./src/com/auca/student/Student.java); [`AcademicMember.java`](./src/com/auca/abstracts/AcademicMember.java); [`Person.java`](./src/com/auca/abstracts/Person.java) | **Partial.** Student creation collects inherited and student-specific values and selects a real Department object. The required four-step progress display, BACK/CANCEL navigation, complete review, and numbered field editing are not present. |
+| **17. Complete student review and confirmation** | [`Main.java`](./src/com/auca/main/Main.java) (`registerStudent`) | **Not implemented.** The current flow validates and saves after input; it does not display all 18 fields for Save/Edit/Cancel confirmation. |
+| **18. Smart forms for every entity** | [`Main.java`](./src/com/auca/main/Main.java) and the relevant domain class | **Partial.** Each entity has a registration operation or a borrowing workflow, but the common multi-step form pattern, complete review/edit behavior, and consistent retry/cancel behavior are not implemented for all entities. |
+
+Sections 13–15 do not appear in the supplied assignment document; its numbering proceeds from Section 12 to Section 16.
+
+## 3. Mandatory domain attributes
+
+These are the model files for the six attributes prescribed in Section 3. Attributes inherited from `Person` and `AcademicMember` are in their respective abstract classes.
+
+| Domain type | Source file |
+| --- | --- |
+| `Identifiable` and `Registrable` constants | [`Identifiable.java`](./src/com/auca/interfaces/Identifiable.java), [`Registrable.java`](./src/com/auca/interfaces/Registrable.java) |
+| `Person` | [`Person.java`](./src/com/auca/abstracts/Person.java) |
+| `AcademicMember` | [`AcademicMember.java`](./src/com/auca/abstracts/AcademicMember.java) |
+| `Student` | [`Student.java`](./src/com/auca/student/Student.java) |
+| `Teacher` | [`Teacher.java`](./src/com/auca/teacher/Teacher.java) |
+| `Administrator` | [`Administrator.java`](./src/com/auca/administrator/Administrator.java) |
+| `Department` | [`Department.java`](./src/com/auca/department/Department.java) |
+| `Course` | [`Course.java`](./src/com/auca/course/Course.java) |
+| `Classroom` | [`Classroom.java`](./src/com/auca/classroom/Classroom.java) |
+| `Enrollment` | [`Enrollment.java`](./src/com/auca/enrollment/Enrollment.java) |
+| `Assessment` | [`Assessment.java`](./src/com/auca/assessment/Assessment.java) |
+| `FeePayment` | [`FeePayment.java`](./src/com/auca/feepayment/FeePayment.java) |
+| `LibraryBook` | [`LibraryBook.java`](./src/com/auca/librarybook/LibraryBook.java) |
+| `BookLoan` | [`BookLoan.java`](./src/com/auca/bookloan/BookLoan.java) |
+
+## How the main OOP concepts are demonstrated
+
+- **Encapsulation:** domain state is held in private fields and accessed through getters/setters.
+- **Inheritance:** `Student` and `Teacher` inherit academic-member state; `Administrator` inherits person state.
+- **Abstraction:** `Person` and `AcademicMember` define shared state and abstract role/category behavior.
+- **Interfaces:** entities implement `Identifiable` and `Registrable`; the menu uses interface types in its polymorphism example.
+- **Runtime polymorphism:** `demonstratePolymorphism()` calls overridden person behavior through `Person` references.
+- **Object relationships:** courses refer to departments and teachers; enrollments refer to students and courses; loans refer to students and books.
+- **Validation and exceptions:** each model validates its own key constraints, while the menu catches business exceptions and displays a message.
+
+## Suggested demonstration
+
+1. Compile from the project root:
+
+   ```text
+   javac -d out (Get-ChildItem -Recurse -Filter *.java | % { $_.FullName })
+   ```
+
+2. Run the menu:
+
+   ```text
+   java -cp out com.auca.main.Main
+   ```
+
+3. Register a Department, then create a Student and Teacher using that Department.
+4. Create a Course, enroll a Student, then record an Assessment and Fee Payment.
+5. Register a Library Book, borrow it, and return it to observe available-copy changes.
+6. Use View All Records, Search by ID, Student Academic Summary, Payment History, and Demonstrate Polymorphism.
+
+The in-memory collections reset when the program exits. To meet every detail of the practical smart-form specification, the partial workflows identified above would need to be extended.

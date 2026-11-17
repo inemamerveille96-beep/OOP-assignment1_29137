@@ -1,0 +1,633 @@
+---
+projectName: "AUCA_ID"
+---
+
+
+## 1. Problem statement
+
+AUCA intends to replace manual student, staff, course, timetable, assessment, fee and library records with a console-based School Management System. Develop a complete application named `AUCA_ID`. The application must manage the entities below, and demonstrate:
+
+- encapsulation
+- multilevel and hierarchical inheritance
+- interfaces
+- abstract classes
+- polymorphism
+- object relationships
+- validation
+- exception handling
+
+The examiner will inspect and run the actual project physically.
+
+Create **exactly 15 prescribed domain types**: **2 interfaces, 2 abstract classes and 11 concrete classes**. In addition, create one `Main` class and the required custom exception classes. The six attributes specified for each domain type are mandatory. Interface attributes are `public static final` constants, not per-object state; the six interface constants below are intentional. Inherited attributes count toward an object's state, but every concrete or abstract class must also declare the six attributes listed for that type.
+
+---
+
+## 2. Required project and package structure
+
+Use root package `com.auca`. Both interfaces must be in `com.auca.interfaces`; both abstract classes must be in `com.auca.abstracts`. Each concrete domain class must have its own distinct package, as shown below. Put the entry point in `com.auca.main` and custom exceptions in `com.auca.exceptions`. Every source file must declare its correct package.
+
+| Type | Package | Kind / relationship |
+| --- | --- | --- |
+| `Identifiable` | `com.auca.interfaces` | Interface |
+| `Registrable` | `com.auca.interfaces` | Interface |
+| `Person` | `com.auca.abstracts` | Abstract; implements `Identifiable`, `Registrable` |
+| `AcademicMember` | `com.auca.abstracts` | Abstract; extends `Person` |
+| `Student` | `com.auca.student` | Extends `AcademicMember` |
+| `Teacher` | `com.auca.teacher` | Extends `AcademicMember` |
+| `Administrator` | `com.auca.administrator` | Extends `Person` |
+| `Department` | `com.auca.department` | Implements `Identifiable`, `Registrable` |
+| `Course` | `com.auca.course` | Implements `Identifiable`, `Registrable` |
+| `Classroom` | `com.auca.classroom` | Implements `Identifiable`, `Registrable` |
+| `Enrollment` | `com.auca.enrollment` | Implements `Identifiable`, `Registrable` |
+| `Assessment` | `com.auca.assessment` | Implements `Identifiable`, `Registrable` |
+| `FeePayment` | `com.auca.feepayment` | Implements `Identifiable`, `Registrable` |
+| `LibraryBook` | `com.auca.librarybook` | Implements `Identifiable`, `Registrable` |
+| `BookLoan` | `com.auca.bookloan` | Implements `Identifiable`, `Registrable` |
+
+---
+
+## 3. Mandatory attributes and data types
+
+Each table below gives the six declared attributes for that type. Use the exact names and data types. Declare class attributes `private`, except where abstract-class design requires `protected` access with justification. Use object references rather than copying related entities as text. Use `java.time.LocalDate` for dates and `java.math.BigDecimal` for money.
+
+### 3.1 Identifiable (interface)
+
+| Attribute | Data type |
+| --- | --- |
+| `ID_PREFIX` | `String` |
+| `MIN_ID_LENGTH` | `int` |
+| `MAX_ID_LENGTH` | `int` |
+| `ID_SEPARATOR` | `String` |
+| `DEFAULT_STATUS` | `String` |
+| `ENTITY_VERSION` | `int` |
+
+### 3.2 Registrable (interface)
+
+| Attribute | Data type |
+| --- | --- |
+| `MIN_NAME_LENGTH` | `int` |
+| `MAX_NAME_LENGTH` | `int` |
+| `MAX_EMAIL_LENGTH` | `int` |
+| `MIN_PHONE_LENGTH` | `int` |
+| `MAX_PHONE_LENGTH` | `int` |
+| `DATE_PATTERN` | `String` |
+
+### 3.3 Person (abstract)
+
+| Attribute | Data type |
+| --- | --- |
+| `personId` | `String` |
+| `firstName` | `String` |
+| `lastName` | `String` |
+| `email` | `String` |
+| `phoneNumber` | `String` |
+| `dateOfBirth` | `LocalDate` |
+
+### 3.4 AcademicMember (abstract)
+
+| Attribute | Data type |
+| --- | --- |
+| `memberNumber` | `String` |
+| `department` | `Department` |
+| `joinDate` | `LocalDate` |
+| `academicStatus` | `String` |
+| `institutionalEmail` | `String` |
+| `advisorName` | `String` |
+
+### 3.5 Student
+
+| Attribute | Data type |
+| --- | --- |
+| `studentNumber` | `String` |
+| `programName` | `String` |
+| `admissionDate` | `LocalDate` |
+| `studyYear` | `int` |
+| `guardianPhone` | `String` |
+| `scholarshipStatus` | `boolean` |
+
+### 3.6 Teacher
+
+| Attribute | Data type |
+| --- | --- |
+| `employeeNumber` | `String` |
+| `specialization` | `String` |
+| `hireDate` | `LocalDate` |
+| `salary` | `BigDecimal` |
+| `officeNumber` | `String` |
+| `employmentType` | `String` |
+
+### 3.7 Administrator
+
+| Attribute | Data type |
+| --- | --- |
+| `staffNumber` | `String` |
+| `jobTitle` | `String` |
+| `assignedOffice` | `String` |
+| `employmentDate` | `LocalDate` |
+| `accessLevel` | `int` |
+| `active` | `boolean` |
+
+### 3.8 Department
+
+| Attribute | Data type |
+| --- | --- |
+| `departmentId` | `String` |
+| `departmentName` | `String` |
+| `departmentCode` | `String` |
+| `officeLocation` | `String` |
+| `contactEmail` | `String` |
+| `headTeacher` | `Teacher` |
+
+### 3.9 Course
+
+| Attribute | Data type |
+| --- | --- |
+| `courseId` | `String` |
+| `courseCode` | `String` |
+| `courseTitle` | `String` |
+| `creditHours` | `int` |
+| `department` | `Department` |
+| `assignedTeacher` | `Teacher` |
+
+### 3.10 Classroom
+
+| Attribute | Data type |
+| --- | --- |
+| `classroomId` | `String` |
+| `buildingName` | `String` |
+| `roomNumber` | `String` |
+| `capacity` | `int` |
+| `floorNumber` | `int` |
+| `available` | `boolean` |
+
+### 3.11 Enrollment
+
+| Attribute | Data type |
+| --- | --- |
+| `enrollmentId` | `String` |
+| `student` | `Student` |
+| `course` | `Course` |
+| `enrollmentDate` | `LocalDate` |
+| `semester` | `String` |
+| `enrollmentStatus` | `String` |
+
+### 3.12 Assessment
+
+| Attribute | Data type |
+| --- | --- |
+| `assessmentId` | `String` |
+| `enrollment` | `Enrollment` |
+| `assessmentType` | `String` |
+| `maximumScore` | `double` |
+| `obtainedScore` | `double` |
+| `assessmentDate` | `LocalDate` |
+
+### 3.13 FeePayment
+
+| Attribute | Data type |
+| --- | --- |
+| `paymentId` | `String` |
+| `student` | `Student` |
+| `amount` | `BigDecimal` |
+| `paymentDate` | `LocalDate` |
+| `paymentMethod` | `String` |
+| `receiptNumber` | `String` |
+
+### 3.14 LibraryBook
+
+| Attribute | Data type |
+| --- | --- |
+| `bookId` | `String` |
+| `isbn` | `String` |
+| `title` | `String` |
+| `author` | `String` |
+| `totalCopies` | `int` |
+| `availableCopies` | `int` |
+
+### 3.15 BookLoan
+
+| Attribute | Data type |
+| --- | --- |
+| `loanId` | `String` |
+| `student` | `Student` |
+| `book` | `LibraryBook` |
+| `borrowedDate` | `LocalDate` |
+| `dueDate` | `LocalDate` |
+| `returnedDate` | `LocalDate` |
+
+---
+
+## 4. Interface contracts and required methods
+
+All public business operations must be declared in an interface. Implement the two required interfaces with the signatures below. Additional business operations must first be declared in the most appropriate interface before implementation; helper methods such as private validators, constructors, getters and setters are exempt. Interface methods are public and abstract unless explicitly defined as `default`/`static`.
+
+| Interface | Required method declarations |
+| --- | --- |
+| `Identifiable` | `String getId();` `String getDisplayName();` `boolean isActive();` |
+| `Registrable` | `void validate() throws ValidationException;` `void printDetails();` `String getRegistrationSummary();` |
+
+Every concrete class must implement all applicable interface methods, directly or through inherited concrete implementations.
+
+`Person` must declare `public abstract String getRoleDescription();` and `AcademicMember` must declare `public abstract String getAcademicCategory()`.
+
+Since all public business operations must be interface-declared, add these two signatures to `Registrable` as `default` methods or declare them there as abstract and implement appropriately across all types; explain your chosen design during demonstration.
+
+To avoid forcing non-person entities to implement person-specific operations, a cleaner alternative is to add these as abstract methods to `Person` and `AcademicMember` and treat them as the specifically permitted abstract-class extension to the interface rule.
+
+---
+
+## 5. Required inheritance and polymorphism
+
+Implement the mandatory inheritance hierarchy:
+
+- `Person -> AcademicMember -> Student`
+- `Person -> AcademicMember -> Teacher`
+- `Person -> Administrator`
+
+This demonstrates multilevel and hierarchical inheritance.
+
+- `Person` implements both interfaces; `AcademicMember` inherits those contracts.
+- `Department`, `Course`, `Classroom`, `Enrollment`, `Assessment`, `FeePayment`, `LibraryBook` and `BookLoan` implement both interfaces directly.
+- Do not attempt multiple class inheritance in Java.
+
+Demonstrate runtime polymorphism by storing `Student`, `Teacher` and `Administrator` objects in a `List<Person>` and invoking overridden methods through `Person` references. Also store unrelated concrete entities in `List<Identifiable>` and call interface methods.
+
+Include at least one use of `super(...)`, method overriding and constructor chaining. Explain why `Person` and `AcademicMember` cannot be instantiated directly.
+
+---
+
+## 6. Required registration workflow and object relationships
+
+All data entry must use **one shared `Scanner`** reading from `System.in`. Store records in typed in-memory collections (for example `ArrayList`); database connectivity and GUI frameworks are not required. On registration, users must choose an existing related object from a numbered list. Never ask users to type an arbitrary related ID and silently accept an unknown record.
+
+| Registration | Mandatory prerequisites / behavior |
+| --- | --- |
+| Department | Head teacher is optional at initial creation; allow assignment after a Teacher exists. |
+| Student / Teacher | Department must exist; if none exists, prompt to register Department first, then resume. |
+| Course | Department and Teacher must exist; show existing records and permit guided prerequisite registration. |
+| Enrollment | Student and Course must exist; prevent duplicate active enrollment for same student, course and semester. |
+| Assessment | Enrollment must exist; only assess an active enrollment. |
+| FeePayment | Student must exist; prevent duplicate receipt numbers. |
+| BookLoan | Student and LibraryBook must exist; require an available copy; update stock on loan and return. |
+| Classroom / Administrator / LibraryBook | Can be created without other records. |
+
+When a required prerequisite is missing, display a clear message, such as *"No course exists. Register a course before enrolling a student."* Offer:
+
+1. Register prerequisite now
+2. Return to menu
+
+After successful prerequisite registration, resume the original task. Do not create placeholder students, teachers, departments or courses automatically. If the user cancels, leave the original registration uncommitted.
+
+---
+
+## 7. Main class and menu requirements
+
+Create `com.auca.main.Main` containing `public static void main(String[] args)`. The menu must loop until the user selects Exit. Provide at least the following numbered actions:
+
+| # | Action | # | Action |
+| --- | --- | --- | --- |
+| 1 | Register Department | 11 | Borrow Book |
+| 2 | Register Student | 12 | Return Book |
+| 3 | Register Teacher | 13 | View All Records |
+| 4 | Register Administrator | 14 | Search by ID |
+| 5 | Register Course | 15 | Update Record |
+| 6 | Register Classroom | 16 | Show Student Academic Summary |
+| 7 | Enroll Student | 17 | Show Payment History |
+| 8 | Record Assessment | 18 | Show Available Books |
+| 9 | Record Fee Payment | 19 | Demonstrate Polymorphism |
+| 10 | Register Library Book | 0 | Exit |
+
+Use `switch` or enhanced `switch` for menu routing, loops for repeated input and explicit confirmation before destructive changes. Show success/failure messages and record summaries. Search, update and reporting operations must be implemented, not just displayed as menu labels.
+
+---
+
+## 8. Validation requirements
+
+Perform validation before storing or modifying data; repeat input until corrected or the user cancels. At minimum enforce:
+
+- nonblank required text
+- trimmed names of 2-60 characters
+- unique IDs and unique student/employee/course codes
+- valid email syntax and maximum length
+- phone numbers containing 10-15 digits with optional leading `+`
+- dates parsed with `LocalDate` and no invalid calendar dates
+- date of birth in the past
+- admission/hire/enrollment dates not in the future unless a justified rule is documented
+- study year 1-6
+- credit hours 1-6
+- classroom capacity greater than zero
+- floor number zero or greater
+- teacher salary and payments strictly positive
+- nonnegative book copy counts with `availableCopies` not exceeding `totalCopies`
+- assessment `maximumScore` greater than zero and `obtainedScore` between zero and `maximumScore`
+- `dueDate` after `borrowedDate`
+- `returnedDate` absent until returned and never before `borrowedDate`
+- allowed status, semester, assessment type and payment method values
+- nonempty receipt number
+- valid menu selection
+
+Use `LocalDate` parsing with `try`/`catch`, `BigDecimal` for financial amounts and appropriate checks for `null` references. Avoid using `Scanner.nextInt()` mixed with `nextLine()`; parse complete lines to prevent skipped input.
+
+Validate cross-record rules: a teacher must belong to an existing department, a course must reference a registered department and teacher, and a student cannot borrow a book when no copies remain.
+
+---
+
+## 9. Exception handling
+
+Create separate custom exception classes in `com.auca.exceptions`:
+
+- `ValidationException`
+- `DuplicateRecordException`
+- `RecordNotFoundException`
+- `PrerequisiteMissingException`
+- `BookUnavailableException`
+
+Each must extend `Exception` or `RuntimeException`, provide a meaningful message constructor and be thrown in the relevant scenario. Catch exceptions at the menu/workflow boundary, print understandable messages and return safely to input or the main menu.
+
+Also handle `NumberFormatException`, `DateTimeParseException` and unexpected nulls appropriately. Never use an empty `catch` block or terminate the application because one registration failed.
+
+---
+
+## 10. Constructors, encapsulation and implementation rules
+
+For every concrete and abstract class, provide:
+
+- suitable parameterized constructors
+- getters and setters for mutable attributes
+- a meaningful `toString()`
+- a validation implementation
+
+Keep fields private wherever practical; use `super` constructors to initialize inherited state. Interface constants must be initialized in the interface declaration. Do not add public fields to bypass encapsulation. Any additional methods used for registration, searching, editing, reporting or book return must have a clear interface contract or be private helper methods. Use proper access modifiers and meaningful naming conventions.
+
+---
+
+## 11. Physical demonstration and submission
+
+Submit a runnable folder named `AUCA_ID` with the complete source-code package tree. During physical marking, the student must compile and run the program and:
+
+- create all record types
+- demonstrate a missing-prerequisite workflow
+- reject invalid data
+- detect duplicates
+- demonstrate multilevel and hierarchical inheritance
+- show interface-based and superclass-based polymorphism
+- borrow and return a library book
+- recover gracefully from an exception
+
+The examiner may request modifications or ask the student to explain any constructor, method, validation rule or relationship. The student must demonstrate personally that the project works.
+
+> **Important:** This document specifies the examination question only. Do not submit a written solution in place of a working OOP project.
+
+---
+
+# Practical Assignment: Menu Requirements (Additional)
+
+## 12. Mandatory Scanner-based smart registration menu
+
+This section is an additional compulsory part of the same `AUCA_ID` examination question. Students must implement the menus and workflows described here. The console layouts below are examples of expected interaction, not source-code solutions. All input must be collected through a **single shared `Scanner`** on `System.in`, using `nextLine()` and explicit conversion and validation.
+
+### 12.1 Main menu: exact required navigation
+
+```text
+============== AUCA_ID SCHOOL MANAGEMENT ==============
+ 1. Register Department          11. Borrow Library Book
+ 2. Register Student             12. Return Library Book
+ 3. Register Teacher             13. View All Records
+ 4. Register Administrator       14. Search Record by ID
+ 5. Register Course              15. Update Existing Record
+ 6. Register Classroom           16. Student Academic Summary
+ 7. Enroll Student               17. Student Payment History
+ 8. Record Assessment            18. View Available Books
+ 9. Record Fee Payment           19. Demonstrate Polymorphism
+10. Register Library Book         0. Exit
+Select an option: _
+```
+
+The menu must be inside the `main(String[] args)` execution flow (directly or by methods called from it), repeat until `0` is selected, and route every option to a working operation. Invalid numeric input, nonnumeric input and out-of-range selections must not crash or close the application.
+
+### 12.2 Smart data-entry form for every concrete class
+
+Provide an individual interactive registration form for each of the 11 concrete classes: `Department`, `Student`, `Teacher`, `Administrator`, `Course`, `Classroom`, `Enrollment`, `Assessment`, `FeePayment`, `LibraryBook` and `BookLoan`. A `BookLoan` form is opened by Borrow Library Book. Return Book updates an existing `BookLoan`; it does not create a second loan. Each form must request or derive all six attributes declared for that class in Section 3, as well as inherited required attributes. Display the attribute label and expected type or format; do not ask the user to enter raw object references.
+
+```text
+------------- REGISTER STUDENT -------------
+Student ID (String, unique): _
+First name (String, 2-60 chars): _
+Date of birth (LocalDate, YYYY-MM-DD): _
+... continue for EVERY required Student attribute
+... and all mandatory inherited Person/AcademicMember fields
+
+Department (select an existing record):
+ 1. Computing    2. Business
+ 3. Register new Department    0. Cancel
+Select: _
+
+Review entered data: [show complete record]
+ 1. Save record   2. Edit field   0. Cancel
+Select: _
+```
+
+The field names above illustrate presentation only: students must use the exact six attributes and data types specified for each class in Section 3, rather than replacing them with example fields. Inherited values must be initialized using the appropriate superclass constructors.
+
+### 12.3 Registration and dependency resolution
+
+The form must check prerequisites before asking for dependent data. If the related entity is missing, offer to register it immediately and then resume the interrupted form without losing valid fields already entered. Never create dummy records or accept nonexistent references. For a relation with multiple records, display a numbered selection list with a short identifying summary and a Cancel option.
+
+```text
+-------------- ENROLL STUDENT --------------
+No Course is registered.
+ 1. Register Course now    0. Cancel enrollment
+Select: 1
+
+Course requires Department and Teacher.
+[Guide the user through any missing registrations]
+Course saved. Returning to Enrollment...
+
+Select Student: [numbered list]
+Select Course:  [numbered list]
+Enter semester: _
+Review -> Save / Edit / Cancel
+```
+
+Apply the prerequisite rules from Section 6 for Student, Teacher, Course, Enrollment, Assessment, FeePayment and BookLoan. For `BookLoan`, check availability before confirming, decrement `availableCopies` exactly once on successful borrowing, and increment it exactly once on successful return. A cancelled or failed workflow must not partially save or change stock.
+
+### 12.4 Required smart form behaviors
+
+- Each field is prompted separately in the correct data type. Show accepted formats and permitted choices for enums/status values; mask nothing by silently substituting a default.
+- For invalid input, display the reason and re-prompt only the affected field; allow `0` or an explicit Cancel command to abandon a form safely. Preserve other valid entries.
+- Check uniqueness at entry and before Save. Check relational and cross-record rules again when saving.
+- Before saving, display all entered data and offer Save, Edit a numbered field, or Cancel. On Save show a meaningful success message and identifier.
+- When editing, offer only mutable fields, validate again, and require confirmation before committing changes. Do not allow changing an ID into an existing ID.
+- For search and record lists, show a human-readable summary, not only the default object hash representation. Provide an empty-list message and return option.
+- Use `Scanner` for every interactive action, including selection of existing related records, payment details, assessment results, borrowing and returning.
+- Provide a consistent Back/Cancel mechanism for nested registration; prevent infinite loops and preserve the original workflow state when prerequisites are added.
+
+### 12.5 Required validation and exception behavior
+
+Validate blank inputs, length, uniqueness, numeric ranges, money, dates, email/phone, available stock, allowed status values and required references according to Section 8. Catch `NumberFormatException` and `DateTimeParseException` when parsing `Scanner` input; throw and handle the custom exceptions in Section 9 for business-rule failures. Show the reason and return to the appropriate field or menu; do not display a stack trace to the ordinary user.
+
+### 12.6 Physical demonstration: required menu scenarios
+
+During physical assessment the student must demonstrate:
+
+- **(a)** registering each concrete record type through the menu
+- **(b)** a missing Department or Course followed by guided registration and automatic return
+- **(c)** a duplicate ID being rejected
+- **(d)** an invalid date and amount being re-entered
+- **(e)** enrollment and assessment using existing object selections
+- **(f)** borrowing and returning with accurate `availableCopies`
+- **(g)** viewing, searching and editing a record
+- **(h)** cancellation without partial saves
+- **(i)** safe recovery from an exception
+
+The examiner may choose any menu action and enter unexpected values.
+
+> **Important:** The menu is a mandatory working feature, not a printed menu with unimplemented options. No marking scheme is included in this question.
+
+---
+
+# Practical Assignment: Smart Forms
+
+## 16. Smart Student Registration: Required Console Design
+
+Replace the earlier dashed `REGISTER STUDENT` example with the following professional, guided, multi-step console form. This is a mandatory interaction specification, not source code. Use one shared `Scanner` and collect all inherited and declared attributes. All labels and prompts must be shown; no ellipses or skipped fields are permitted.
+
+### 16.1 Main screen and progress indicator
+
+```text
++------------------------------------------------------------+
+| AUCA_ID / SCHOOL MANAGEMENT                                |
+| STUDENT REGISTRATION                          Step 1 of 4  |
++------------------------------------------------------------+
+| [1] Personal details        [2] Academic details           |
+| [3] Student details         [4] Review & confirm           |
++------------------------------------------------------------+
+| Enter the requested value. Type BACK to return;            |
+| CANCEL to discard the unsaved student.                     |
++------------------------------------------------------------+
+```
+
+### 16.2 Step 1: Person details (6 inherited fields)
+
+```text
+[STEP 1/4] PERSONAL DETAILS
+01 Person ID      [String | unique | 4-30 chars] : _
+02 First name     [String | 2-60 chars]          : _
+03 Last name      [String | 2-60 chars]          : _
+04 Email          [String | unique | email]      : _
+05 Phone          [String | 10-15 digits]        : _
+06 Date of birth  [LocalDate | YYYY-MM-DD]       : _
+[ENTER] Next step   [BACK] Previous   [CANCEL] Exit
+```
+
+### 16.3 Step 2: AcademicMember details (6 inherited fields)
+
+```text
+[STEP 2/4] ACADEMIC DETAILS
+07 Member number       [String | unique | 4-30]      : _
+08 Department          [Department | select]         : _
+09 Join date           [LocalDate | YYYY-MM-DD]      : _
+10 Academic status     [1 ACTIVE / 2 INACTIVE]       : _
+11 Institutional email [String | unique | email]     : _
+12 Advisor name        [String | 2-120 chars]        : _
+[ENTER] Next step   [BACK] Previous   [CANCEL] Exit
+```
+
+### 16.4 Smart Department selector (required at field 08)
+
+```text
++----------------- CHOOSE DEPARTMENT ------------------------+
+| 1  [DEP001] Computing                                       |
+| 2  [DEP002] Business                                        |
+| 3  [+] Register a new Department                            |
+| 0  Cancel student registration                              |
++------------------------------------------------------------+
+Select option: _
+```
+
+Populate the list from real saved `Department` objects; these two entries are illustrations only. If the list is empty, show a friendly empty-state message and offer to register a Department immediately. After saving the Department, return to field 08 with previously entered student values intact. Store the selected `Department` object, not the menu number.
+
+---
+
+## 17. Complete Student Form and Confirmation
+
+### 17.1 Step 3: Student details (6 declared fields)
+
+```text
+[STEP 3/4] STUDENT DETAILS
+13 Student number  [String | unique | 4-30]   : _
+14 Program name    [String | 2-120 chars]     : _
+15 Admission date  [LocalDate | YYYY-MM-DD]   : _
+16 Study year      [int | 1-8]               : _
+17 Guardian phone  [String | 10-15 digits]   : _
+18 Scholarship     [1 YES / 2 NO]            : _
+[ENTER] Review record   [BACK] Previous   [CANCEL] Exit
+```
+
+### 17.2 Step 4: Complete review of all 18 fields
+
+```text
++---------------- REVIEW STUDENT ---------------------------+
+| PERSON                                                     |
+| 01 Person ID           : PER0001                           |
+| 02 First name          : Alice                             |
+| 03 Last name           : Uwase                             |
+| 04 Email               : alice@example.com                 |
+| 05 Phone               : 0781234567                        |
+| 06 Date of birth       : 2004-05-16                        |
+| ACADEMIC MEMBER                                            |
+| 07 Member number       : MEM0001                           |
+| 08 Department          : [DEP001] Computing                |
+| 09 Join date           : 2026-09-01                        |
+| 10 Academic status     : ACTIVE                            |
+| 11 Institutional email : alice@auca.ac.rw                  |
+| 12 Advisor name        : Dr. Example                       |
+| STUDENT                                                    |
+| 13 Student number      : STU0001                           |
+| 14 Program name        : Software Engineering              |
+| 15 Admission date      : 2026-09-01                        |
+| 16 Study year          : 1                                 |
+| 17 Guardian phone      : 0787654321                        |
+| 18 Scholarship         : YES                               |
++------------------------------------------------------------+
+| [1] Save student   [2] Edit field   [0] Cancel             |
++------------------------------------------------------------+
+Select option: _
+```
+
+The sample values are illustrative, never hard-coded defaults. Edit must ask for a field number from 01 to 18, show its old value, accept a replacement, validate it, and return to the complete review. Saving must recheck all constraints and commit **exactly one** `Student` object.
+
+### 17.3 Smart feedback and error recovery
+
+```text
+! Invalid date: use YYYY-MM-DD (example: 2004-05-16).
+  Please re-enter field 06: _
+
+! Student number STU0001 already exists.
+  Please enter a different student number: _
+
++ Student STU0002 registered successfully.
+  [1] Register another   [2] View student   [0] Main menu
+```
+
+---
+
+## 18. Smart Form Rules for Every Entity
+
+Apply the same four-step interaction pattern to all 11 concrete entities: `Department`, `Student`, `Teacher`, `Administrator`, `Course`, `Classroom`, `Enrollment`, `Assessment`, `FeePayment`, `LibraryBook` and `BookLoan`. The exact six attributes for each type are already specified in Section 3. `Teacher` and `Administrator` must also collect their inherited attributes. Show each actual field with its type, format and validation; never use placeholder text.
+
+### Required behavior
+
+- Present clear title, progress step, numbered fields, Back and Cancel on every form.
+- Use `Scanner` for all input and numbered selection of existing related objects; never accept an unknown foreign reference.
+- Offer nested registration when a required Department, Teacher, Student, Course, Enrollment or LibraryBook is missing; then resume the interrupted operation.
+- Keep valid inputs when correcting one field; show precise errors for blank values, invalid email, duplicate IDs, invalid dates, ranges, amounts and unavailable stock.
+- Before Save, display every attribute including inherited fields and readable related-record labels. Offer Save, Edit field and Cancel.
+- Save only after all validations pass. Cancel must not create a partial record or change book stock.
+- Use one consistent design across all registration screens; no menu item may be a nonworking placeholder.
+
+### Physical assessment scenario
+
+The examiner may start Student registration with no Departments saved, create a Department from the nested selector, resume Student entry, deliberately enter an invalid date and duplicate student number, edit an earlier field, review the complete 18-field record and save. The examiner may repeat this workflow for any other entity. No marking scheme is included.
+
+---
